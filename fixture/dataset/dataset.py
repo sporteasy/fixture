@@ -256,8 +256,8 @@ def is_rowlike(candidate):
     A regular or new-style class is row-like because DataSet objects allow any 
     type of class to declare a row of data
     """
-    return hasattr(candidate, '_dataset') and type(candidate._dataset) in (
-                                                            DataType, DataSet)
+    return hasattr(candidate, '_dataset') and isinstance(candidate._dataset,
+                                                         (DataType, DataSet))
 
 class DataRow(object):
     """
