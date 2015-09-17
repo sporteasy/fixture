@@ -160,24 +160,38 @@ class DjangoFixture(DBLoadableFixture):
     
     DjangoMedium = DjangoMedium
     Medium = DjangoMedium
-    
+
+    # def wrap_in_transaction(self, routine, unloading=False):
+    #     """call routine in a load transaction"""
+    #     from django.db import transaction
+    #
+    #     if not unloading:
+    #         self.loaded = self.LoadQueue()
+    #
+    #     with transaction.atomic():
+    #         routine()
+
     def create_transaction(self):
         """Return a new transaction
-        
+
         Calls enter_transaction_management and returns the django.db.transaction
         module (which meets the API required by fixture)
         """
-        from django.db import transaction
-        transaction.enter_transaction_management()
+        from django.db import transaction as db_transaction
+        transaction = db_transaction.atomic()
+        transaction.__enter__()
         return transaction
-    
+
+    def commit(self):
+        pass
+
+    def rollback(self):
+        from django.db import transaction as db_transaction
+        db_transaction.set_rollback(True)
+
     def then_finally(self, unloading=False):
         """Not sure if this is needed, leaving it in for a reminder"""
-        from django.db import transaction
-        try:
-            self.transaction.leave_transaction_management()
-        except transaction.TransactionManagementError, e:
-            raise
+        self.transaction.__exit__(None, None, None)
 
     def attach_storage_medium(self, ds):
         """Attach the Django model for this DataSet.
@@ -225,8 +239,8 @@ class DjangoFixture(DBLoadableFixture):
                 "django_model must be a `.' separated combination of app label "
                 "and model name, got %s" % django_model)
         else:
-            from django.db.models.loading import get_model
-            model = get_model(app_label, model_name)
+            from django.apps import apps
+            model = apps.get_model(app_label, model_name)
             if not model:
                 raise self.StorageMediaNotFound(
                     "could not find a django model from the attribute given:"
@@ -237,8 +251,8 @@ class DjangoFixture(DBLoadableFixture):
         if not ds.meta.storable_name:
             ds.meta.storable_name = self.style.guess_storable_name(
                                                         ds.__class__.__name__)
-        from django.db.models.loading import get_model
-        model = get_model(django_app_label, ds.meta.storable_name)
+        from django.apps import apps
+        model = apps.get_model(django_app_label, ds.meta.storable_name)
         if not model:
             raise self.StorageMediaNotFound(
                 "could not find a django model using derived name %r and given app label %r" 
@@ -259,7 +273,7 @@ class DjangoEnv(object):
         :param name: A name like app__ModelName such that name.split('__')
             will give you an app label and a model name suitable for get_model
         """
-        from django.db.models.loading import get_model
+        from django.apps import apps
 
         try:
             app_label, model_name = name.split(DJANGO_ENV_SPLIT)
@@ -269,5 +283,5 @@ class DjangoEnv(object):
                 "and model name.  Alternatively, you can set Meta.django_app_label "
                 "to match the DataSet class name to a model for that app." % (name, DJANGO_ENV_SPLIT))
         else:
-            return get_model(app_label, model_name)
+            return apps.get_model(app_label, model_name)
 
