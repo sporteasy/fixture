@@ -6,9 +6,10 @@ few variations on it: :class:`SuperSet` and :class:`MergedSuperSet`
 
 """
 
-from builtins import hex
-from builtins import object
+from builtins import *
 import sys, types
+
+from fixture.exc import with_traceback
 from fixture.util import ObjRegistry
 from future.utils import with_metaclass
 
@@ -266,7 +267,7 @@ class DataRow(object):
     """
     a DataSet row, values accessible by attibute or key.
     """
-    _reserved_attr = ('columns',)
+    _reserved_attr = ('columns', 'next')
     
     def __init__(self, dataset):
         object.__setattr__(self, '_dataset', dataset)
@@ -323,9 +324,9 @@ class DataSetStore(list):
             return self[ self._ds_key_map[key] ]
         except (IndexError, KeyError):
             etype, val, tb = sys.exc_info()
-            raise etype("row '%s' hasn't been loaded for %s (loaded: %s)" % (
-                                        key, self.dataset, self)).with_traceback(tb)
-        
+            raise with_traceback(etype("row '%s' hasn't been loaded for %s (loaded: %s)" % (
+                                        key, self.dataset, self)), tb)
+
     def store(self, key, obj):
         self.append(obj)
         pos = len(self)-1
@@ -556,7 +557,7 @@ class DataSet(with_metaclass(DataType, DataContainer)):
                 if isinstance(col_val, Ref):
                     # the .ref attribute
                     continue
-                elif type(col_val) in (list, tuple):
+                elif isinstance(col_val, (list, tuple)):
                     for c in col_val:
                         if is_rowlike(c):
                             add_ref_from_rowlike(c)
@@ -564,9 +565,8 @@ class DataSet(with_metaclass(DataType, DataContainer)):
                         # could definitely break any other storage mediums
                         # ListProperty supports quite a few more types than these
                         # see appengine.ext.db._ALLOWED_PROPERTY_TYPES
-                        elif type(c) in (bytes, str, bool,
-                                         float, int):
-                             continue
+                        elif isinstance(c, (bytes, str, bool, float, int)):
+                            continue
                         else:
                             raise TypeError(
                                 "multi-value columns can only contain "

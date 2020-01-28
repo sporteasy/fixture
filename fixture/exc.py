@@ -1,5 +1,6 @@
-
 """Fixture exceptions"""
+from builtins import Exception
+
 
 class UninitializedError(Exception):
     pass
@@ -56,3 +57,10 @@ class StorageMediaNotFound(LookupError):
     used by :mod:`fixture.loadable` classes
     """
     pass
+
+
+def with_traceback(exc, tb):
+    if hasattr("exc", "with_traceback"):
+        return exc.with_traceback(tb)
+    else:
+        return exc, None, tb

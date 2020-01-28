@@ -51,6 +51,7 @@ As a shortcut, you can run this to set these variables in your shell ::
 
 """
 
+from builtins import *
 import unittest, nose, os
 from fixture.test import conf
 
@@ -78,7 +79,7 @@ class PrudentTestResult(unittest.TestResult):
     """A test result that raises an exception immediately"""
     def _raise_err(self, err):
         exctype, value, tb = err
-        raise Exception("%s: %s" % (exctype, value)).with_traceback(tb)
+        raise with_traceback(Exception("%s: %s" % (exctype, value)), tb)
         
     def addFailure(self, test, err):
         self._raise_err(err)

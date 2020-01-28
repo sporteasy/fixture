@@ -1,11 +1,12 @@
 
-from builtins import str
+from builtins import *
 from past.builtins import basestring
-from builtins import object
 import sys, inspect
 from fixture.command.generate import (
         DataHandler, register_handler, FixtureSet, NoData, UnsupportedHandler)
 from fixture import SQLAlchemyFixture
+from fixture.exc import with_traceback
+
 try:
     import sqlalchemy
 except ImportError:
@@ -53,12 +54,12 @@ class TableEnv(object):
             return self.tablemap[table]
         except KeyError:
             etype, val, tb = sys.exc_info()
-            raise LookupError(
-                "Could not locate original declaration of Table %s "
-                "(looked in: %s)  You might need to add "
-                "--env='path.to.module'?" % (
-                        table, ", ".join([repr(p) for p in self.objects]))).with_traceback(tb)
-    
+            error = LookupError(
+                u"Could not locate original declaration of Table %s "
+                u"(looked in: %s)  You might need to add "
+                u"--env='path.to.module'?" % (table, ", ".join([repr(p) for p in self.objects])))
+            raise with_traceback(error, tb)
+
     def _find_objects(self, obj, module):
         from sqlalchemy.schema import Table
         

@@ -5,16 +5,14 @@ See :ref:`Using LoadableFixture<using-loadable-fixture>` for examples.
 
 """
 # from __future__ import with_statement
-from builtins import hex
-from builtins import map
-from builtins import object
+from builtins import *
 __all__ = ['LoadableFixture', 'EnvLoadableFixture', 'DBLoadableFixture', 'DeferredStoredObject']
 import sys, types
 from fixture.base import Fixture
 from fixture.util import ObjRegistry, _mklog
 from fixture.style import OriginalStyle
 from fixture.dataset import Ref, dataset_registry, DataRow, is_rowlike
-from fixture.exc import UninitializedError, LoadError, UnloadError, StorageMediaNotFound
+from fixture.exc import UninitializedError, LoadError, UnloadError, StorageMediaNotFound, with_traceback
 import logging
 
 log     = _mklog("fixture.loadable")
@@ -49,9 +47,8 @@ class StorageMediumAdapter(object):
                 self.clear(obj)
             except Exception as e:
                 etype, val, tb = sys.exc_info()
-                raise UnloadError(etype, val, self.dataset, 
-                                     stored_object=obj).with_traceback(tb)
-        
+                raise with_traceback(UnloadError(etype, val, self.dataset, stored_object=obj), tb)
+
     def save(self, row, column_vals):
         """Given a DataRow, must save it somehow.
         
@@ -245,8 +242,8 @@ class LoadableFixture(Fixture):
                 
             except Exception as e:
                 etype, val, tb = sys.exc_info()
-                raise LoadError(etype, val, ds, key=key, row=row).with_traceback(tb)
-    
+                raise with_traceback(LoadError(etype, val, ds, key=key, row=row), tb)
+
     def resolve_row_references(self, current_dataset, row):        
         """resolve this DataRow object's referenced values.
         """
@@ -267,7 +264,7 @@ class LoadableFixture(Fixture):
                 
         for name in row.columns():
             val = getattr(row, name)
-            if type(val) in (list, tuple):
+            if isinstance(val, (list, tuple)):
                 # i.e. categories = [python, ruby]
                 setattr(row, name, list(map(resolve_stored_object, val)))
             elif is_rowlike(val):

@@ -4,9 +4,11 @@
 The more useful bits are in :mod:`fixture.loadable`
 
 """
-from builtins import hex
-from builtins import object
+from builtins import *
 import sys, traceback
+
+from fixture.exc import with_traceback
+
 try:
     from functools import wraps
 except ImportError:
@@ -168,7 +170,7 @@ class Fixture(object):
                         sys.stderr.write("\n\n%s\n" % t_ident)
                         traceback.print_exc()
                         sys.stderr.write("%s\n\n" % t_ident)
-                    raise exc.with_traceback(tb)
+                    raise with_traceback(exc, tb)
                 else:
                     teardown_data(data)
     
@@ -201,7 +203,7 @@ class Fixture(object):
                                 sys.stderr.write("\n\n%s\n" % t_ident)
                                 traceback.print_exc()
                                 sys.stderr.write("%s\n\n" % t_ident)
-                            raise exc.with_traceback(tb)
+                            raise with_traceback(exc, tb)
                         else:
                             teardown_data(data)
                     

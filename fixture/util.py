@@ -1,13 +1,16 @@
 
 """Fixture utilties."""
 
-from builtins import object
+from builtins import *
 import sys
 import unittest
 import types
 import logging
 
 __all__ = ['DataTestCase']
+
+from fixture.exc import with_traceback
+
 
 class DataTestCase(object):
     """
@@ -60,8 +63,8 @@ class ObjRegistry(object):
             return self.registry[self.id(obj)]
         except KeyError:
             etype, val, tb = sys.exc_info()
-            raise KeyError("object %s is not in registry" % obj).with_traceback(tb)
-    
+            raise with_traceback(KeyError("object %s is not in registry" % obj), tb)
+
     def __contains__(self, object):
         return self.has(object)
     
