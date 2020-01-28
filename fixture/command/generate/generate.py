@@ -5,6 +5,7 @@
 See :ref:`Using the fixture command <using-fixture-command>` for examples.
 
 """
+from __future__ import print_function
 
 import sys, os, optparse, inspect, pkg_resources
 from warnings import warn
@@ -47,7 +48,7 @@ class FixtureCache(object):
     def add(self, set):
         fxtid = set.obj_id()        
         self.push_fxtid(fxtid)
-        if not self.registry.has_key(fxtid):
+        if fxtid not in self.registry:
             self.registry[fxtid] = {}
         
         # we want to add a new set but
@@ -88,7 +89,7 @@ class DataSetGenerator(object):
         for h in handler_registry:
             try:
                 recognizes_obj = h.recognizes(object_path, obj=obj)
-            except UnsupportedHandler, e:
+            except UnsupportedHandler as e:
                 warn("%s is unsupported (%s)" % (h, e))
                 continue
             if recognizes_obj:
@@ -96,7 +97,7 @@ class DataSetGenerator(object):
                             obj=obj, template=self.template, **kw)
                 break
         if handler is None:
-            raise UnrecognizedObject, (
+            raise UnrecognizedObject(
                     "no handler recognizes object %s at %s (importable? %s); "
                     "tried handlers %s" %
                         (obj, object_path, (importable and "YES" or "NO"), 

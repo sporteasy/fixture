@@ -14,4 +14,4 @@ class UserData(DataSet):
         is_active = 'True'
         is_superuser = 'True'
         #last_login = '2009-03-03 12:51:02.086360'
-        date_joined = datetime(2009, 03, 05)
+        date_joined = datetime(2009, 0o3, 0o5)

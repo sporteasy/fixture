@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 from distutils.cmd import Command
 import os, sys, shutil
 from os import path
@@ -54,5 +55,5 @@ class userdocs(Command):
         if path.exists(images_target):
             shutil.rmtree(images_target)
         shutil.copytree(path.join(docs.srcdir, 'images'), images_target)
-        print "built user docs to %s" % docsdir
+        print("built user docs to %s" % docsdir)
 

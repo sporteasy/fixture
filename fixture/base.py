@@ -23,7 +23,7 @@ from compiler.consts import CO_GENERATOR
 
 def is_generator(func):
     try:
-        return func.func_code.co_flags & CO_GENERATOR != 0
+        return func.__code__.co_flags & CO_GENERATOR != 0
     except AttributeError:
         return False
 
@@ -155,7 +155,7 @@ class Fixture(object):
                 except KeyboardInterrupt:
                     # user wants to abort everything :
                     raise
-                except Exception, exc:
+                except Exception as exc:
                     # caught exception, so try to teardown but do it safely :
                     etype, val, tb = sys.exc_info()
                     try:
@@ -166,7 +166,7 @@ class Fixture(object):
                         sys.stderr.write("\n\n%s\n" % t_ident)
                         traceback.print_exc()
                         sys.stderr.write("%s\n\n" % t_ident)
-                    raise exc, None, tb
+                    raise exc.with_traceback(tb)
                 else:
                     teardown_data(data)
     
@@ -188,7 +188,7 @@ class Fixture(object):
                         genargs = (data,) + genargs
                         try:
                             fn(*genargs, **kw)
-                        except Exception, exc:
+                        except Exception as exc:
                             etype, val, tb = sys.exc_info()
                             try:
                                 teardown_data(data)
@@ -199,7 +199,7 @@ class Fixture(object):
                                 sys.stderr.write("\n\n%s\n" % t_ident)
                                 traceback.print_exc()
                                 sys.stderr.write("%s\n\n" % t_ident)
-                            raise exc, None, tb
+                            raise exc.with_traceback(tb)
                         else:
                             teardown_data(data)
                     

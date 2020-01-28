@@ -78,7 +78,7 @@ class PrudentTestResult(unittest.TestResult):
     """A test result that raises an exception immediately"""
     def _raise_err(self, err):
         exctype, value, tb = err
-        raise Exception("%s: %s" % (exctype, value)), None, tb
+        raise Exception("%s: %s" % (exctype, value)).with_traceback(tb)
         
     def addFailure(self, test, err):
         self._raise_err(err)

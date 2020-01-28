@@ -113,7 +113,7 @@ def shell(
         try:
             try:
                 main(cmdlist[1:])
-            except SystemExit, e:
+            except SystemExit as e:
                 returncode = e.code
             else:
                 returncode = 0

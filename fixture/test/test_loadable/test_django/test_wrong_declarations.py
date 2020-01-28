@@ -1,8 +1,9 @@
+from __future__ import absolute_import
 from fixture import DjangoFixture, DataSet, style
 from fixture.exc import LoadError
 from nose.tools import raises, assert_raises
 
-from util import *
+from .util import *
 from fixture.examples.django_example.app import models
 
 class ReviewerData(DataSet):

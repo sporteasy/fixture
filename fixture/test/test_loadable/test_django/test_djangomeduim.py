@@ -1,9 +1,10 @@
+from __future__ import absolute_import
 from datetime import datetime
 from fixture import DjangoFixture
 from fixture.style import NamedDataStyle
 from fixture.loadable.django_loadable import field_is_required
-from fixtures import *
-from util import *
+from .fixtures import *
+from .util import *
 from nose.tools import raises
 from fixture.examples.django_example.app import models
 from django.db import models as django_models

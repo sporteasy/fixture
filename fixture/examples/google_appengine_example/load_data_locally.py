@@ -1,3 +1,4 @@
+from __future__ import print_function
 
 import sys
 import os
@@ -46,7 +47,7 @@ def main():
     
     data = datafixture.data(datasets.CommentData, datasets.EntryData)
     data.setup()
-    print "Data loaded into datastore %s" % (options.datastore_path or "[default]")
+    print("Data loaded into datastore %s" % (options.datastore_path or "[default]"))
 
 if __name__ == '__main__':
     main()

@@ -114,7 +114,7 @@ class SQLObjectFixtureSet(FixtureSet):
             # which could be perfectly legal.
             return None
             
-        if self.foreign_key_class.has_key(colname):
+        if colname in self.foreign_key_class:
             model = findClass(self.foreign_key_class[colname])
             rs = model.get(value, connection=self.connection)
             return SQLObjectFixtureSet(rs, model, connection=self.connection)

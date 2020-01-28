@@ -59,7 +59,7 @@ class ObjRegistry:
             return self.registry[self.id(obj)]
         except KeyError:
             etype, val, tb = sys.exc_info()
-            raise KeyError("object %s is not in registry" % obj), None, tb
+            raise KeyError("object %s is not in registry" % obj).with_traceback(tb)
     
     def __contains__(self, object):
         return self.has(object)
@@ -78,7 +78,7 @@ class ObjRegistry:
             else:
                 # instance ...
                 cls = object.__class__
-        elif type(object)==types.ClassType:
+        elif type(object)==type:
             # then it's a classic class (no metaclass)...
             cls = object
         else:

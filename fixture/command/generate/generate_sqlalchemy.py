@@ -33,9 +33,8 @@ class TableEnv(object):
                             module = __import__(modpath)
                     except:
                         etype, val, tb = sys.exc_info()
-                        raise (
-                            ImportError("%s: %s (while importing %s)" % (
-                                etype, val, modpath)), None, tb)
+                        raise ImportError("%s: %s (while importing %s)" % (
+                                etype, val, modpath))
                 else:
                     module = sys.modules[modpath]
                     obj = module
@@ -51,11 +50,11 @@ class TableEnv(object):
             return self.tablemap[table]
         except KeyError:
             etype, val, tb = sys.exc_info()
-            raise LookupError, (
+            raise LookupError(
                 "Could not locate original declaration of Table %s "
                 "(looked in: %s)  You might need to add "
                 "--env='path.to.module'?" % (
-                        table, ", ".join([repr(p) for p in self.objects]))), tb
+                        table, ", ".join([repr(p) for p in self.objects]))).with_traceback(tb)
     
     def _find_objects(self, obj, module):
         from sqlalchemy.schema import Table

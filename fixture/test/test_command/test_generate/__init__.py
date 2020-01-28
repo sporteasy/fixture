@@ -1,3 +1,4 @@
+from __future__ import print_function
 
 import sys
 import os
@@ -63,7 +64,7 @@ class GenerateTest(object):
             data = self.load_env(self.env)
             self.assert_data_loaded(data)
         except:
-            print code
+            print(code)
             raise
     
     def test_query(self):        
@@ -78,9 +79,9 @@ class GenerateTest(object):
         try:
             try:
                 self.dataset_generator(['-w', "name = 'fooobzarius'"])
-            except SystemExit, e:
+            except SystemExit as e:
                 eq_(e.code, 2)
-            except Exception, e:
+            except Exception as e:
                 wrong_exc(e)
             else:
                 wrong_exc()

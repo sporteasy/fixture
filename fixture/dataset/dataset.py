@@ -145,7 +145,7 @@ class Ref(object):
 
 def is_row_class(attr):
     attr_type = type(attr)
-    return ((attr_type==types.ClassType or attr_type==type) and 
+    return ((attr_type==type or attr_type==type) and 
                 attr.__name__ != 'Meta' and 
                 not issubclass(attr, DataContainer.Meta))
 
@@ -321,7 +321,7 @@ class DataSetStore(list):
         except (IndexError, KeyError):
             etype, val, tb = sys.exc_info()
             raise etype("row '%s' hasn't been loaded for %s (loaded: %s)" % (
-                                        key, self.dataset, self)), None, tb
+                                        key, self.dataset, self)).with_traceback(tb)
         
     def store(self, key, obj):
         self.append(obj)
@@ -554,7 +554,7 @@ class DataSet(DataContainer):
                 if isinstance(col_val, Ref):
                     # the .ref attribute
                     continue
-                elif type(col_val) in (types.ListType, types.TupleType):
+                elif type(col_val) in (list, tuple):
                     for c in col_val:
                         if is_rowlike(c):
                             add_ref_from_rowlike(c)
@@ -562,8 +562,8 @@ class DataSet(DataContainer):
                         # could definitely break any other storage mediums
                         # ListProperty supports quite a few more types than these
                         # see appengine.ext.db._ALLOWED_PROPERTY_TYPES
-                        elif type(c) in (types.StringType, types.UnicodeType, types.BooleanType,
-                                         types.FloatType, types.IntType):
+                        elif type(c) in (bytes, str, bool,
+                                         float, int):
                              continue
                         else:
                             raise TypeError(

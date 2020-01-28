@@ -1,3 +1,4 @@
+from __future__ import print_function
 
 import sys
 from nose.tools import eq_, raises
@@ -139,7 +140,7 @@ class HandlerQueryTest(object):
             self.hnd.commit()
         assert rs, "unexpected record set: %s" % rs
         names = set([o.name for o in rs])
-        print names
+        print(names)
         assert self.data.CategoryData.bumpy.name in names
         assert self.data.CategoryData.curvy.name in names
         assert self.data.CategoryData.jagged.name in names

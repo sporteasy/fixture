@@ -209,7 +209,7 @@ class TestFixture:
         try:
             try:
                 run_tests()
-            except Exception, e:
+            except Exception as e:
                 etype, val, tb = sys.exc_info()
                 assert 'error raised from some_generator' in str(val), (
                     "Unexpected: %s" % val)
