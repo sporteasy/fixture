@@ -1,5 +1,7 @@
 # -*- coding: latin_1 -*-
 
+from builtins import str
+from builtins import object
 import os
 from nose.tools import eq_
 from os.path import join, exists, isdir, basename

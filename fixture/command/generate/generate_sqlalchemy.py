@@ -1,4 +1,7 @@
 
+from builtins import str
+from past.builtins import basestring
+from builtins import object
 import sys, inspect
 from fixture.command.generate import (
         DataHandler, register_handler, FixtureSet, NoData, UnsupportedHandler)
@@ -192,7 +195,7 @@ class SQLAlchemyMappedClassBase(SQLAlchemyHandler):
                     "not sure how to get a table from mapper %s" % 
                                                         self.mapper)
             
-            self.id_attr = self.table.primary_key.columns.keys()
+            self.id_attr = list(self.table.primary_key.columns.keys())
             
         def primary_key_from_instance(self, data):
             return self.mapper.primary_key_from_instance(data)
@@ -214,7 +217,7 @@ class SQLAlchemyMappedClassBase(SQLAlchemyHandler):
             
     def find(self, idval):                                                        
         q = self.session.query(self.obj)
-        primary_keys = self.table.primary_key.columns.keys() # I think this is 0.4 only
+        primary_keys = list(self.table.primary_key.columns.keys()) # I think this is 0.4 only
         try:
             len(idval)
         except TypeError:

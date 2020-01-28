@@ -7,9 +7,13 @@ See :ref:`Using the fixture command <using-fixture-command>` for examples.
 """
 from __future__ import print_function
 
+from builtins import hex
+from builtins import str
+from builtins import object
 import sys, os, optparse, inspect, pkg_resources
 from warnings import warn
 from fixture.command.generate.template import templates, is_template
+from future.utils import with_metaclass
 handler_registry = []
 
 class NoData(LookupError):
@@ -140,7 +144,7 @@ class DataSetGenerator(object):
             tpl['fxt_class'] = self.handler.mk_class_name(kls)
             
             val_dict = self.cache.registry[kls]
-            for k,fset in val_dict.items():
+            for k,fset in list(val_dict.items()):
                 key = fset.mk_key()
                 data = self.handler.resolve_data_dict(datadef, fset)
                 tpl['data'].append((key, self.template.dict(data)))
@@ -170,7 +174,7 @@ class DataSetGenerator(object):
             self.handler.findall(self.options.where)
             def cache_set(s):        
                 self.cache.add(s)
-                for (k,v) in s.data_dict.items():
+                for (k,v) in list(s.data_dict.items()):
                     if isinstance(v, FixtureSet):
                         f_set = v
                         cache_set(f_set)
@@ -253,10 +257,9 @@ class HandlerType(type):
         # split camel class name into something readable?
         return self.__name__
 
-class DataHandler(object):
+class DataHandler(with_metaclass(HandlerType, object)):
     """handles an object that can provide fixture data.
     """
-    __metaclass__ = HandlerType
     loadable_fxt_class = None
         
     def __init__(self, object_path, options, obj=None, template=None):
@@ -313,7 +316,7 @@ class DataHandler(object):
         # want to do is turn all foreign key values into
         # code strings 
         
-        for k,v in fset.data_dict.items():
+        for k,v in list(fset.data_dict.items()):
             if isinstance(v, FixtureSet):
                 # then it's a foreign key link
                 linked_fset = v

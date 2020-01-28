@@ -1,6 +1,7 @@
 
 """Utilities for converting datasets."""
 
+from builtins import str
 import datetime
 import decimal
 import types

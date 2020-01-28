@@ -4,6 +4,7 @@
 See :ref:`Using Fixture With Django <using-fixture-with-django>` for a complete example.
 """
 
+from builtins import object
 from fixture.loadable import DBLoadableFixture
 from fixture.util import any
 

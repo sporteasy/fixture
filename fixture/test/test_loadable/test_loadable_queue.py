@@ -1,4 +1,5 @@
 
+from builtins import object
 import sys
 import unittest
 from fixture.util import start_debug, stop_debug
@@ -74,214 +75,214 @@ class TestComplexLoadQueue(unittest.TestCase):
         #     |__..EventClassData (2)
         
         class StatusData(DataSet):
-            class status_1:
+            class status_1(object):
                 id = 1
                 value = 'uninitialized'
-            class status_2:
+            class status_2(object):
                 id = 2
                 value = 'deleted'
-            class status_3:
+            class status_3(object):
                 id = 3
                 value = 'proposed'
-            class status_4:
+            class status_4(object):
                 id = 4
                 value = 'approved'
-            class status_5:
+            class status_5(object):
                 id = 5
                 value = 'active'
-            class status_6:
+            class status_6(object):
                 id = 6
                 value = 'terminated'
-            class status_7:
+            class status_7(object):
                 id = 7
                 value = 'ended'
-            class status_8:
+            class status_8(object):
                 id = 8
                 value = 'revoked'
 
         class ClientTypesData(DataSet):
-            class client_types_2:
+            class client_types_2(object):
                 type = 'real'
                 id = 2
 
         class ContactsData(DataSet):
-            class contacts_1682:
+            class contacts_1682(object):
                 status = StatusData.status_1.ref('id')
-            class contacts_1742:
+            class contacts_1742(object):
                 status = StatusData.status_1.ref('id')
-            class contacts_1779:
+            class contacts_1779(object):
                 status = StatusData.status_1.ref('id')
-            class contacts_5091:
+            class contacts_5091(object):
                 status = StatusData.status_1.ref('id')
-            class contacts_5099:
+            class contacts_5099(object):
                 status = StatusData.status_1.ref('id')
-            class contacts_5176:
+            class contacts_5176(object):
                 status = StatusData.status_1.ref('id')
-            class contacts_5177:
+            class contacts_5177(object):
                 status = StatusData.status_1.ref('id')
-            class contacts_5200:
+            class contacts_5200(object):
                 status = StatusData.status_1.ref('id')
-            class contacts_5543:
+            class contacts_5543(object):
                 status = StatusData.status_1.ref('id')
-            class contacts_5720:
+            class contacts_5720(object):
                 status = StatusData.status_1.ref('id')
-            class contacts_5421:
+            class contacts_5421(object):
                 status = StatusData.status_1.ref('id')
 
         class PartnersData(DataSet):
-            class partners_2131:
+            class partners_2131(object):
                 status = StatusData.status_1.ref('id')
                 primary_contact_id = ContactsData.contacts_5177.ref('id')
                 remit_to_contact_id = ContactsData.contacts_5176.ref('id')
                 lfo_media_ops_id = ContactsData.contacts_5200.ref('id')
-            class partners_1988:
+            class partners_1988(object):
                 status = StatusData.status_1.ref('id')
                 primary_contact_id = ContactsData.contacts_1682.ref('id')
                 remit_to_contact_id = ContactsData.contacts_1682.ref('id')
                 lfo_media_ops_id = ContactsData.contacts_5091.ref('id')
-            class partners_2418:
+            class partners_2418(object):
                 status = StatusData.status_1.ref('id')
                 primary_contact_id = ContactsData.contacts_5720.ref('id')
                 remit_to_contact_id = ContactsData.contacts_5720.ref('id')
                 lfo_media_ops_id = ContactsData.contacts_5543.ref('id')
 
         class PartnerChannelsData(DataSet):
-            class partner_channels_1468:
+            class partner_channels_1468(object):
                 status = StatusData.status_1.ref('id')
                 partner_id = PartnersData.partners_2131.ref('id')
-            class partner_channels_1563:
+            class partner_channels_1563(object):
                 status = StatusData.status_1.ref('id')
                 partner_id = PartnersData.partners_1988.ref('id')
-            class partner_channels_2000:
+            class partner_channels_2000(object):
                 status = StatusData.status_1.ref('id')
                 partner_id = PartnersData.partners_2418.ref('id')
 
         class InternalCommissionSchedData(DataSet):
-            class internal_commission_sched_1:
+            class internal_commission_sched_1(object):
                 status = StatusData.status_1.ref('id')
 
         class PartnerInsertOrdersData(DataSet):
-            class partner_insert_orders_4248:
+            class partner_insert_orders_4248(object):
                 status = StatusData.status_1.ref('id')
-            class partner_insert_orders_3946:
+            class partner_insert_orders_3946(object):
                 status = StatusData.status_1.ref('id')
 
         class ClientCompensationCalcData(DataSet):
-            class client_compensation_calc_3:
+            class client_compensation_calc_3(object):
                 status = StatusData.status_1.ref('id')
-            class client_compensation_calc_4:
+            class client_compensation_calc_4(object):
                 status = StatusData.status_1.ref('id')
 
         class ClientsData(DataSet):
-            class clients_106:
+            class clients_106(object):
                 status = StatusData.status_1.ref('id')
                 primary_contact_id = ContactsData.contacts_5099.ref('id')
                 client_type_id = ClientTypesData.client_types_2.ref('id')
                 account_manager_id = ContactsData.contacts_5421.ref('id')
 
         class EventClassData(DataSet):
-            class event_class_1:
+            class event_class_1(object):
                 id = 1
-            class event_class_2:
+            class event_class_2(object):
                 id = 2
-            class event_class_3:
+            class event_class_3(object):
                 id = 3
-            class event_class_5:
+            class event_class_5(object):
                 id = 5
-            class event_class_6:
+            class event_class_6(object):
                 id = 6
 
         class ClientEventTypeData(DataSet):
-            class acme_click:
+            class acme_click(object):
                 event_class_id = EventClassData.event_class_1.ref('id')
                 client_id = ClientsData.clients_106.ref('id')
                 id = 10
-            class acme_submit:
+            class acme_submit(object):
                 event_class_id = EventClassData.event_class_2.ref('id')
                 client_id = ClientsData.clients_106.ref('id')
                 id = 11
-            class acme_confirmation:
+            class acme_confirmation(object):
                 event_class_id = EventClassData.event_class_3.ref('id')
                 client_id = ClientsData.clients_106.ref('id')
                 id = 12
-            class acme_cancel:
+            class acme_cancel(object):
                 event_class_id = EventClassData.event_class_3.ref('id')
                 client_id = ClientsData.clients_106.ref('id')
                 id = 13
-            class acme_install:
+            class acme_install(object):
                 event_class_id = EventClassData.event_class_5.ref('id')
                 client_id = ClientsData.clients_106.ref('id')
                 id = 14
-            class acme_failure:
+            class acme_failure(object):
                 event_class_id = EventClassData.event_class_3.ref('id')
                 client_id = ClientsData.clients_106.ref('id')
                 id = 15
-            class acme_bonus:
+            class acme_bonus(object):
                 event_class_id = EventClassData.event_class_6.ref('id')
                 client_id = ClientsData.clients_106.ref('id')
                 id = 16
 
         class ProductsData(DataSet):
-            class products_132:
+            class products_132(object):
                 client_id = ClientsData.clients_106.ref('id')
                 id = 132
-            class products_12:
+            class products_12(object):
                 client_id = ClientsData.clients_106.ref('id')
                 id = 12
-            class products_56:
+            class products_56(object):
                 client_id = ClientsData.clients_106.ref('id')
                 id = 56
-            class products_120:
+            class products_120(object):
                 client_id = ClientsData.clients_106.ref('id')
                 id = 120
-            class products_121:
+            class products_121(object):
                 client_id = ClientsData.clients_106.ref('id')
                 id = 121
-            class products_122:
+            class products_122(object):
                 client_id = ClientsData.clients_106.ref('id')
                 id = 122
-            class products_123:
+            class products_123(object):
                 client_id = ClientsData.clients_106.ref('id')
                 id = 123
-            class products_56:
+            class products_56(object):
                 client_id = ClientsData.clients_106.ref('id')
                 id = 56
-            class products_61:
+            class products_61(object):
                 client_id = ClientsData.clients_106.ref('id')
                 id = 61
-            class acme_hidefup_product:
+            class acme_hidefup_product(object):
                 client_id = ClientsData.clients_106.ref('id')
                 id = 62
 
         class OffersData(DataSet):
-            class acme_ii_offer:
+            class acme_ii_offer(object):
                 product_id = ProductsData.products_12.ref('id')
                 calc_id = \
                  ClientCompensationCalcData.client_compensation_calc_3.ref('id')
                 id = 304
-            class offers_13:
+            class offers_13(object):
                 product_id = ProductsData.products_12.ref('id')
                 calc_id = \
                  ClientCompensationCalcData.client_compensation_calc_4.ref('id')
-            class offers_829:
+            class offers_829(object):
                 product_id = ProductsData.products_123.ref('id')
                 id = 829
-            class acme_default_hsd_offer:
+            class acme_default_hsd_offer(object):
                 product_id = ProductsData.products_12.ref('id')
                 id = 888
-            class acme_default_digi_offer:
+            class acme_default_digi_offer(object):
                 product_id = ProductsData.products_56.ref('id')
                 id = 845
-            class acme_hidefup_default_offer:
+            class acme_hidefup_default_offer(object):
                 product_id = ProductsData.acme_hidefup_product.ref('id')
                 id = 853
 
         class PartnerCommissionCalcData(DataSet):
-            class partner_commission_calc_16:
+            class partner_commission_calc_16(object):
                 status = StatusData.status_1.ref('id')
 
         class CampaignsData(DataSet):
-            class campaigns_50805:
+            class campaigns_50805(object):
                 internal_commission_id = \
               InternalCommissionSchedData.internal_commission_sched_1.ref('id')
                 orig_offer_id = OffersData.acme_ii_offer.ref('id')
@@ -291,7 +292,7 @@ class TestComplexLoadQueue(unittest.TestCase):
                   PartnerInsertOrdersData.partner_insert_orders_4248.ref('id')
                 salesperson_id = ContactsData.contacts_1779.ref('id')
                 channel_id = PartnerChannelsData.partner_channels_1468.ref('id')
-            class campaigns_50199:
+            class campaigns_50199(object):
                 internal_commission_id = \
             InternalCommissionSchedData.internal_commission_sched_1.ref('id')
                 orig_offer_id = OffersData.offers_13.ref('id')
@@ -301,7 +302,7 @@ class TestComplexLoadQueue(unittest.TestCase):
                   PartnerInsertOrdersData.partner_insert_orders_3946.ref('id')
                 salesperson_id = ContactsData.contacts_1742.ref('id')
                 channel_id = PartnerChannelsData.partner_channels_1563.ref('id')
-            class campaigns_55310:
+            class campaigns_55310(object):
                 internal_commission_id = \
               InternalCommissionSchedData.internal_commission_sched_1.ref('id')
                 orig_offer_id = OffersData.offers_829.ref('id')
@@ -309,23 +310,23 @@ class TestComplexLoadQueue(unittest.TestCase):
                 channel_id = PartnerChannelsData.partner_channels_2000.ref('id')
 
         class LinkRequestData(DataSet):
-            class link_request_52084:
+            class link_request_52084(object):
                 campaign_id = CampaignsData.campaigns_50805.ref('id')
                 client_id = ClientsData.clients_106.ref('id')
             # acme default link ...
-            class link_request_51439:
+            class link_request_51439(object):
                 campaign_id = CampaignsData.campaigns_50199.ref('id')
                 client_id = ClientsData.clients_106.ref('id')
-            class link_request_56477:
+            class link_request_56477(object):
                 campaign_id = CampaignsData.campaigns_55310.ref('id')
                 client_id = ClientsData.clients_106.ref('id')
 
         class ActivityLogData(DataSet):
-            class activity_log_6540907:
+            class activity_log_6540907(object):
                 link_id = LinkRequestData.link_request_56477.ref('id')
 
         class EventLogData(DataSet):
-            class acme_click_event:
+            class acme_click_event(object):
                 activity_id = ActivityLogData.activity_log_6540907.ref('id')
                 closing_offer_id = OffersData.offers_829.ref('id')
                 event_type_id = ClientEventTypeData.acme_click.ref('id')

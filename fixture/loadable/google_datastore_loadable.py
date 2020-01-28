@@ -20,7 +20,7 @@ class EntityMedium(EnvLoadableFixture.StorageMediumAdapter):
         if the value passed in is not a list, this passes it through as is
         """
         if type(mylist)==type([]):
-            if all(map(lambda x: hasattr(x,'key'),mylist)):
+            if all([hasattr(x,'key') for x in mylist]):
                 return [ent.key() for ent in mylist]
             else: # ...no type checks...
                 return mylist

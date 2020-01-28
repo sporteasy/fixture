@@ -1,6 +1,7 @@
 
 """examples for using SQLObject fixtures."""
 
+from builtins import object
 try:
     import sqlobject
 except ImportError:
@@ -12,18 +13,18 @@ if sqlobject:
     from sqlobject import *
     
     class Category(SQLObject):
-        class sqlmeta:
+        class sqlmeta(object):
             table = 'fixture_sqlobject_category'
         name = StringCol()
 
     class Product(SQLObject):
-        class sqlmeta:
+        class sqlmeta(object):
             table = 'fixture_sqlobject_product'
         name = StringCol()
         category = ForeignKey('Category')
 
     class Offer(SQLObject):
-        class sqlmeta:
+        class sqlmeta(object):
             table = 'fixture_sqlobject_offer'
         name = StringCol()
         category = ForeignKey('Category')

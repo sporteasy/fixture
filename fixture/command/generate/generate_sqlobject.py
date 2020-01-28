@@ -1,6 +1,7 @@
 
 """support to generate SQLObject-based fixtures."""
 
+from builtins import zip
 from fixture.style import camel_to_under
 from fixture import SQLObjectFixture
 from fixture.command.generate import (
@@ -95,7 +96,7 @@ class SQLObjectFixtureSet(FixtureSet):
         vals = [getattr(self.data, 'id')]
         vals.extend([self.get_col_value(c.name) for c in self.meta.columnList])
     
-        self.data_dict = dict(zip(cols, vals))
+        self.data_dict = dict(list(zip(cols, vals)))
     
     def attr_to_db_col(self, col):
         if col.dbName is not None:
@@ -140,7 +141,7 @@ class SQLObjectFixtureSet(FixtureSet):
         """get an understanding of what columns are what, foreign keys, etc."""
         from sqlobject.col import SOForeignKey
         
-        for name,col in self.meta.columns.items():
+        for name,col in list(self.meta.columns.items()):
             if isinstance(col, SOForeignKey):
                 self.foreign_key_class[col.name] = col.foreignKey
                 

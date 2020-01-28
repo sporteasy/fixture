@@ -1,4 +1,7 @@
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 from fixture.test import attr
 from decimal import Decimal
 import datetime
@@ -9,18 +12,18 @@ try:
     import json
 except ImportError:
     import simplejson as json
-from cStringIO import StringIO
+from io import StringIO
         
 class FooData(DataSet):
-    class bar:
+    class bar(object):
         name = "call me bar"
         is_alive = False
-    class foo:
+    class foo(object):
         name = "name's foo"
         is_alive = True
         
 class MuchoData(DataSet):
-    class mucho:
+    class mucho(object):
         d = datetime.date(2008,1,1)
         dt = datetime.datetime(2008,1,1,2,30,59)
         dec = Decimal("1.45667") 

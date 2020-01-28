@@ -1,4 +1,5 @@
 from __future__ import absolute_import
+from builtins import object
 from fixture import DjangoFixture, DataSet, style
 from fixture.exc import LoadError
 from nose.tools import raises, assert_raises
@@ -7,16 +8,16 @@ from .util import *
 from fixture.examples.django_example.app import models
 
 class ReviewerData(DataSet):
-    class ben:
+    class ben(object):
         name = 'ben'
 
 class BookData(DataSet):
-    class dune:
+    class dune(object):
         title = "Dune"
         reviewers = [ReviewerData.ben]
 
 class AuthorData(DataSet):
-    class frank_herbert:
+    class frank_herbert(object):
         first_name = "Frank"
         last_name = "Herbert"
         books = BookData.dune
@@ -32,7 +33,7 @@ def test_wrong_relation_declaration():
 
 def test_invalid_m2m():
     class ReviewerData(DataSet):
-        class ben:
+        class ben(object):
             name = 'ben'
             reviewed = [BookData.dune, AuthorData.frank_herbert]
     assert_empty(models)

@@ -5,6 +5,9 @@ See :ref:`Using LoadableFixture<using-loadable-fixture>` for examples.
 
 """
 # from __future__ import with_statement
+from builtins import hex
+from builtins import map
+from builtins import object
 __all__ = ['LoadableFixture', 'EnvLoadableFixture', 'DBLoadableFixture', 'DeferredStoredObject']
 import sys, types
 from fixture.base import Fixture
@@ -122,7 +125,7 @@ class LoadQueue(ObjRegistry):
     def to_unload(self):
         """yields a list of objects in an order suitable for unloading.
         """
-        level_nums = self.tree.keys()
+        level_nums = list(self.tree.keys())
         level_nums.sort()
         treelog.info("*** unload order ***")
         for level in level_nums:
@@ -266,7 +269,7 @@ class LoadableFixture(Fixture):
             val = getattr(row, name)
             if type(val) in (list, tuple):
                 # i.e. categories = [python, ruby]
-                setattr(row, name, map(resolve_stored_object, val))
+                setattr(row, name, list(map(resolve_stored_object, val)))
             elif is_rowlike(val):
                 # i.e. category = python
                 setattr(row, name, resolved_rowlike(val))

@@ -1,4 +1,5 @@
 
+from builtins import object
 import nose
 from nose.tools import raises, eq_
 from nose.exc import SkipTest
@@ -46,7 +47,7 @@ class LoadableTest(object):
         from fixture import DataTestCase
         import unittest
         inspector = self
-        class ns:
+        class ns(object):
             tested = False
         
         class SomeDataTestCase(DataTestCase, unittest.TestCase):
@@ -71,7 +72,7 @@ class LoadableTest(object):
     def test_with_data(self):
         import nose, unittest
         
-        class ns:
+        class ns(object):
             was_setup=False
             was_torndown=False
         def setup():
@@ -106,7 +107,7 @@ with self.fixture.data(*self.datasets()) as d:
         exec_if_supported(c, globals(), locals())
         self.assert_data_torndown()
 
-class HavingCategoryData:
+class HavingCategoryData(object):
     """mixin that adds data to a LoadableTest."""
     def datasets(self):
         """returns a single category data set."""
@@ -119,19 +120,19 @@ class HavingCategoryData:
                 )
         return [CategoryData]
 
-class HavingCategoryAsDataType:
+class HavingCategoryAsDataType(object):
     def datasets(self):
         class CategoryData(DataSet):
-            class gray_stuff:
+            class gray_stuff(object):
                 id = 1
                 name = 'gray'
-            class yellow_stuff:
+            class yellow_stuff(object):
                 id = 2
                 name = 'yellow'
                 
         return [CategoryData]
         
-class HavingOfferProductData:   
+class HavingOfferProductData(object):   
     """mixin that adds data to a LoadableTest."""
     def datasets(self):
         """returns some datasets.""" 
@@ -142,7 +143,7 @@ class HavingOfferProductData:
                     ('free_stuff', dict(id=2, name='get free stuff')),)
         
         class ProductData(DataSet):
-            class Meta:
+            class Meta(object):
                 references = (CategoryData,)
             def data(self):
                 return (('truck', dict(
@@ -151,7 +152,7 @@ class HavingOfferProductData:
                             category_id=self.ref.cars.id)),)
         
         class OfferData(DataSet):
-            class Meta:
+            class Meta(object):
                 references = (CategoryData, ProductData)
             def data(self):
                 return (
@@ -163,29 +164,29 @@ class HavingOfferProductData:
                 )
         return [OfferData, ProductData]
         
-class HavingOfferProductAsDataType:  
+class HavingOfferProductAsDataType(object):  
     """mixin that adds data to a LoadableTest."""
     def datasets(self):
         """returns some datasets."""
         
         class CategoryData(DataSet):
-            class cars:
+            class cars(object):
                 id = 1
                 name = 'cars'
-            class free_stuff:
+            class free_stuff(object):
                 id = 2
                 name = 'get free stuff'
         
         ## FIXME: replace all instances of 
         ## foo_id with foo ... that is, we need refs to data sets
         class ProductData(DataSet):
-            class truck:
+            class truck(object):
                 id = 1
                 name = 'truck'
                 category_id = CategoryData.cars.ref('id')
         
         class OfferData(DataSet):
-            class free_truck:
+            class free_truck(object):
                 id = 1
                 name = "it's a free truck"
                 product_id = ProductData.truck.ref('id')
@@ -193,48 +194,48 @@ class HavingOfferProductAsDataType:
                 
         return [ProductData, OfferData]
         
-class HavingReferencedOfferProduct:  
+class HavingReferencedOfferProduct(object):  
     """mixin that adds data to a LoadableTest."""
     def datasets(self):
         """returns some datasets."""
         
         class CategoryData(DataSet):
-            class cars:
+            class cars(object):
                 name = 'cars'
-            class free_stuff:
+            class free_stuff(object):
                 name = 'get free stuff'
         
         class ProductData(DataSet):
-            class truck:
+            class truck(object):
                 name = 'truck'
                 category = CategoryData.cars
         
         class OfferData(DataSet):
-            class free_truck:
+            class free_truck(object):
                 name = "it's a free truck"
                 product = ProductData.truck
                 category = CategoryData.free_stuff
                 
         return [ProductData, OfferData]
         
-class HavingRefInheritedOfferProduct:  
+class HavingRefInheritedOfferProduct(object):  
     """mixin that adds data to a LoadableTest."""
     def datasets(self):
         """returns some datasets."""
         
         class CategoryData(DataSet):
-            class cars:
+            class cars(object):
                 name = 'cars'
-            class free_stuff:
+            class free_stuff(object):
                 name = 'get free stuff'
         
         class ProductData(DataSet):
-            class truck:
+            class truck(object):
                 name = 'truck'
                 category = CategoryData.cars
         
         class OfferData(DataSet):
-            class free_truck:
+            class free_truck(object):
                 name = "it's a free truck"
                 product = ProductData.truck
                 category = CategoryData.free_stuff
@@ -282,7 +283,7 @@ class TestEnvLoadableFixture(object):
             def commit(self): pass
             
         class MyDataSet(DataSet):
-            class some_row:
+            class some_row(object):
                 some_column = 'foo'
                 
         efixture = SomeEnvLoadableFixture(env={'MyDataSet': MyDataSet})
@@ -291,7 +292,7 @@ class TestEnvLoadableFixture(object):
         
 class StubLoadableFixture(DBLoadableFixture):
     def create_transaction(self):
-        class NoTrans:
+        class NoTrans(object):
             def commit(self): pass
         return NoTrans()
 
@@ -315,10 +316,10 @@ class TestDBLoadableRowReferences(object):
         class Pet(MockDataObject):
             owner_name = None
         class PersonData(DataSet):
-            class bob:
+            class bob(object):
                 name = "Bob B. Chillingsworth"
         class PetData(DataSet):
-            class fido:
+            class fido(object):
                 owner_name = PersonData.bob.ref('name')
             
         ldr = StubLoadableFixture(
@@ -347,10 +348,10 @@ class TestDBLoadableRowReferences(object):
         class Pet(MockDataObject):
             owner = None
         class PersonData(DataSet):
-            class bob:
+            class bob(object):
                 name = "Bob B. Chillingsworth"
         class PetData(DataSet):
-            class fido:
+            class fido(object):
                 owner = PersonData.bob
             
         ldr = StubLoadableFixture(
@@ -379,12 +380,12 @@ class TestDBLoadableRowReferences(object):
         class Pet(MockDataObject):
             owners = None
         class PersonData(DataSet):
-            class bob:
+            class bob(object):
                 name = "Bob B. Chillingsworth"
-            class stacy:
+            class stacy(object):
                 name = "Stacy Chillingsworth"
         class PetData(DataSet):
-            class fido:
+            class fido(object):
                 owners = [PersonData.bob, PersonData.stacy]
             
         ldr = StubLoadableFixture(
@@ -414,10 +415,10 @@ class TestDBLoadableRowReferences(object):
             def __repr__(self):
                 return "<Person %s>" % self.name
         class PersonData(DataSet):
-            class bob:
+            class bob(object):
                 name = "Bob B. Chillingsworth"
                 friend = None
-            class jenny:
+            class jenny(object):
                 name = "Jenny Ginetti"
             jenny.friend = bob
             

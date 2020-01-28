@@ -4,6 +4,8 @@
 The more useful bits are in :mod:`fixture.loadable`
 
 """
+from builtins import hex
+from builtins import object
 import sys, traceback
 try:
     from functools import wraps

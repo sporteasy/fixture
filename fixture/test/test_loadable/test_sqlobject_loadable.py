@@ -1,4 +1,5 @@
 
+from builtins import object
 import os, sys
 from nose.tools import eq_
 from nose.exc import SkipTest
@@ -15,7 +16,7 @@ from fixture.test import conf
 def setup():
     if not env_supports.sqlobject: raise SkipTest
 
-class SQLObjectFixtureTest:
+class SQLObjectFixtureTest(object):
     fixture = SQLObjectFixture(
                         style=( NamedDataStyle() + CamelAndUndersStyle()),
                         dsn=conf.LITE_DSN, env=globals(), 
@@ -56,16 +57,16 @@ class TestSQLObjectCategory(
         HavingCategoryData, SQLObjectCategoryTest, LoadableTest):
     pass 
 
-class HavingCategoryDataStorable:
+class HavingCategoryDataStorable(object):
     """mixin that adds data to a LoadableTest."""
     def datasets(self):
         class WhateverIWantToCallIt(DataSet):
-            class Meta:
+            class Meta(object):
                 storable = Category
-            class gray_stuff:
+            class gray_stuff(object):
                 id=1
                 name='gray'
-            class yellow_stuff:
+            class yellow_stuff(object):
                 id=2
                 name='yellow'
         return [WhateverIWantToCallIt]

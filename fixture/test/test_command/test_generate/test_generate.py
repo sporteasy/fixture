@@ -1,4 +1,5 @@
 
+from builtins import object
 import sys
 from nose.tools import eq_, raises, with_setup
 from fixture.test import attr

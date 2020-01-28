@@ -1,6 +1,7 @@
 
 """templates that generate fixture modules."""
 
+from builtins import object
 from fixture.command.generate import code_str
 import pprint
 
@@ -46,7 +47,7 @@ class Template(object):
     class dict(dict):
         def __repr__(self):
             s = ["dict("]
-            for k,v in self.iteritems():
+            for k,v in self.items():
                 s.append("          %s = %s," % (
                                         k, repr(v)))
             s[-1] = s[-1] + ")"
@@ -59,7 +60,7 @@ class Template(object):
                 s.append("      %s," % repr(item))
             return "\n".join(s) + ")"
             
-    class DataDef:
+    class DataDef(object):
         def __init__(self):
             self.data_header = [] # vars at top of data() method
     
@@ -147,7 +148,7 @@ class %(fxt_class)s(DataSet):
             o = []
             for class_, dict_ in self.elements:
                 o.append("    class %s:" % class_)
-                for k,v in dict_.iteritems():
+                for k,v in dict_.items():
                     o.append("        %s = %s" % (k,repr(v)))
             return "\n".join(o)
     

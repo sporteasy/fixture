@@ -6,8 +6,11 @@ few variations on it: :class:`SuperSet` and :class:`MergedSuperSet`
 
 """
 
+from builtins import hex
+from builtins import object
 import sys, types
 from fixture.util import ObjRegistry
+from future.utils import with_metaclass
 
 class DataContainer(object):
     """
@@ -17,7 +20,7 @@ class DataContainer(object):
     On instances, use self.meta instead.
     """
     _reserved_attr = ('meta', 'Meta', 'ref', 'get')
-    class Meta:
+    class Meta(object):
         data = None
         keys = None
         
@@ -378,7 +381,7 @@ class DataSetMeta(DataContainer.Meta):
     _stored_objects = None
     _built = False
 
-class DataSet(DataContainer):
+class DataSet(with_metaclass(DataType, DataContainer)):
     """
     Defines data to be loaded
     
@@ -429,7 +432,6 @@ class DataSet(DataContainer):
     See :ref:`Using Dataset <using-dataset>` for more examples of usage.
     
     """
-    __metaclass__ = DataType
     _reserved_attr = DataContainer._reserved_attr + ('data', 'shared_instance')
     ref = None
     Meta = DataSetMeta
@@ -603,7 +605,7 @@ class DataSetContainer(object):
     
     yields :class:`DataSet` classes when itered over.
     """
-    class Meta:
+    class Meta(object):
         datasets = None
         dataset_keys = None
         

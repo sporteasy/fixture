@@ -5,6 +5,7 @@ See a complete, more accurate example in http://farmdev.com/projects/fixture/doc
 
 """
 
+from builtins import object
 try:
     import sqlalchemy
 except ImportError:

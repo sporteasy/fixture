@@ -1,5 +1,7 @@
 from __future__ import print_function
 
+from builtins import str
+from builtins import object
 import sys
 from nose.tools import eq_, raises
 from nose.exc import SkipTest
@@ -68,7 +70,7 @@ class StubTemplate(Template):
 
 class TestHandlerRecognition(object):
     def setUp(self):
-        class options:
+        class options(object):
             dsn = conf.LITE_DSN
             env = ['fixture.examples.db.sqlalchemy_examples']
         self.generator = DataSetGenerator(options, template=StubTemplate())
@@ -109,11 +111,11 @@ class TestHandlerRecognition(object):
 
 class HandlerQueryTest(object):
     class CategoryData(DataSet):
-        class bumpy:
+        class bumpy(object):
             name='bumpy'
-        class curvy:
+        class curvy(object):
             name='curvy'
-        class jagged:
+        class jagged(object):
             name='jagged'
     
     @attr(unit=True, generate=True)
@@ -169,7 +171,7 @@ class TestQueryMappedClass(HandlerQueryTest):
         metadata.bind = create_engine(conf.LITE_DSN)
         metadata.create_all()
                 
-        class options:
+        class options(object):
             dsn = conf.LITE_DSN
             env = ['fixture.examples.db.sqlalchemy_examples']
         self.options = options
@@ -215,7 +217,7 @@ class TestQuerySessionMappedClass(HandlerQueryTest):
         metadata.bind = create_engine(conf.LITE_DSN)
         metadata.create_all()
                 
-        class options:
+        class options(object):
             dsn = conf.LITE_DSN
             env = ['fixture.examples.db.sqlalchemy_examples']
         self.options = options

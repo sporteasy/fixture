@@ -1,5 +1,7 @@
 from __future__ import print_function
 
+from builtins import str
+from builtins import object
 import unittest
 from nose.tools import eq_, raises
 from nose.exc import SkipTest
@@ -28,7 +30,7 @@ def teardown():
 @raises(UninitializedError)
 def test_cannot_teardown_unloaded_fixture():
     class CategoryData(DataSet):
-        class cars:
+        class cars(object):
             name = 'cars'
             
     engine = create_engine(conf.LITE_DSN)
@@ -44,7 +46,7 @@ def test_cannot_teardown_unloaded_fixture():
 @attr(unit=1)
 def test_negotiated_medium():
     class CategoryData(DataSet):
-        class cars:
+        class cars(object):
             name = 'cars'
             
     engine = create_engine(conf.LITE_DSN)
@@ -76,7 +78,7 @@ def test_negotiated_medium_05():
         raise SkipTest("Requires SQLAlchemy >= 0.5")
         
     class FooData(DataSet):
-        class foo:
+        class foo(object):
             name = 'foozilator'
             
     from sqlalchemy.ext.declarative import declarative_base
@@ -97,9 +99,9 @@ def test_negotiated_medium_05():
 
 class TestSetupTeardown(unittest.TestCase):
     class CategoryData(DataSet):
-        class cars:
+        class cars(object):
             name = 'cars'
-        class free_stuff:
+        class free_stuff(object):
             name = 'get free stuff'
             
     def setUp(self):
@@ -138,9 +140,9 @@ class TestSetupTeardown(unittest.TestCase):
 
 class TestImplicitSABinding(unittest.TestCase):
     class CategoryData(DataSet):
-        class cars:
+        class cars(object):
             name = 'cars'
-        class free_stuff:
+        class free_stuff(object):
             name = 'get free stuff'
             
     def setUp(self):
@@ -183,18 +185,18 @@ class TestImplicitSABinding(unittest.TestCase):
         eq_(list(self.session.query(Category)), [])
         
 class CategoryData(DataSet):
-    class cars:
+    class cars(object):
         name = 'cars'
-    class free_stuff:
+    class free_stuff(object):
         name = 'get free stuff'
 
 class ProductData(DataSet):
-    class truck:
+    class truck(object):
         name = 'truck'
         category = CategoryData.cars
 
 class OfferData(DataSet):
-    class free_truck:
+    class free_truck(object):
         name = "it's a free truck"
         product = ProductData.truck
         category = CategoryData.free_stuff
@@ -282,9 +284,9 @@ class TestCascadingReferences(unittest.TestCase):
 
 class TestCollidingSessions(unittest.TestCase):
     class CategoryData(DataSet):
-        class cars:
+        class cars(object):
             name = 'cars'
-        class free_stuff:
+        class free_stuff(object):
             name = 'get free stuff'
             
     def setUp(self):
@@ -335,9 +337,9 @@ class TestCollidingSessions(unittest.TestCase):
 
 class TestScopedSessions(unittest.TestCase):
     class CategoryData(DataSet):
-        class cars:
+        class cars(object):
             name = 'cars'
-        class free_stuff:
+        class free_stuff(object):
             name = 'get free stuff'
             
     def setUp(self):
@@ -375,9 +377,9 @@ class TestScopedSessions(unittest.TestCase):
 
 class TestElixir(unittest.TestCase):
     class CategoryData(DataSet):
-        class cars:
+        class cars(object):
             name = 'cars'
-        class free_stuff:
+        class free_stuff(object):
             name = 'get free stuff'
             
     def setUp(self):
@@ -426,9 +428,9 @@ class TestElixir(unittest.TestCase):
 
 class TestTableObjects(unittest.TestCase):
     class CategoryData(DataSet):
-        class cars:
+        class cars(object):
             name = 'cars'
-        class free_stuff:
+        class free_stuff(object):
             name = 'get free stuff'
             
     def setUp(self):
@@ -468,9 +470,9 @@ class TestTableObjects(unittest.TestCase):
 
 class TestTableObjectsExplicitConn(object):
     class CategoryData(DataSet):
-        class cars:
+        class cars(object):
             name = 'cars'
-        class free_stuff:
+        class free_stuff(object):
             name = 'get free stuff'
             
     def setUp(self):
@@ -534,9 +536,9 @@ def test_fixture_can_be_disposed():
     )
     
     class CategoryData(DataSet):
-        class cars:
+        class cars(object):
             name = 'cars'
-        class free_stuff:
+        class free_stuff(object):
             name = 'get free stuff'
     
     clear_mappers()
@@ -568,15 +570,15 @@ def test_fixture_can_be_disposed():
         
 @attr(unit=True)
 def test_SQLAlchemyFixture_configured_with_bound_session_and_conn():
-    class StubConnection:
+    class StubConnection(object):
         def begin(self):
             pass
     stub_conn = StubConnection()
-    class StubTransaction:
+    class StubTransaction(object):
         def add(self, engine):
             pass
     fake_out_bind = 1
-    class StubSession:
+    class StubSession(object):
         bind_to = fake_out_bind
         def create_transaction(self):
             return StubTransaction()

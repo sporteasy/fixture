@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+from builtins import object
 import sys
 import os
 from nose.exc import SkipTest
@@ -50,9 +51,9 @@ def clear_datastore():
 class TestSetupTeardown(unittest.TestCase):
     
     class CategoryData(DataSet):
-        class cars:
+        class cars(object):
             name = 'cars'
-        class free_stuff:
+        class free_stuff(object):
             name = 'get free stuff'
             
     def setUp(self):
@@ -91,11 +92,11 @@ class TestRelationships(unittest.TestCase):
         from google.appengine.ext import db
         
         class CategoryData(DataSet):
-            class red:
+            class red(object):
                 color = 'red'
     
         class ProductData(DataSet):
-            class red_truck:
+            class red_truck(object):
                 category = CategoryData.red
                 sale_tag = "Big, Shiny Red Truck"
         self.ProductData = ProductData
@@ -151,13 +152,13 @@ class TestListOfRelationships(unittest.TestCase):
         self.Book = Book
         
         class AuthorData(DataSet):
-            class frank_herbert:
+            class frank_herbert(object):
                 name = "Frank Herbert"
-            class brian_herbert:
+            class brian_herbert(object):
                 name = "Brian Herbert"
                 
         class BookData(DataSet):
-             class two_worlds:
+             class two_worlds(object):
                  title = "Man of Two Worlds"
                  authors = [AuthorData.frank_herbert, AuthorData.brian_herbert]
         self.BookData = BookData

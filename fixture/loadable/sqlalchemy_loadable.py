@@ -7,6 +7,7 @@ See :ref:`Using LoadableFixture<using-loadable-fixture>` for examples.
 
 """
 
+from builtins import object
 import sys
 from fixture.loadable import DBLoadableFixture
 from fixture.exc import UninitializedError

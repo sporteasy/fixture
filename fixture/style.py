@@ -4,6 +4,8 @@
 Style objects are used to customize how :ref:`storable objects are found for DataSet objects <using-loadable-fixture-style>`
 """
 
+from builtins import hex
+from builtins import object
 __all__ = [
     'CamelAndUndersStyle', 'TrimmedNameStyle', 'NamedDataStyle', 
     'PaddedNameStyle', 'ChainedStyle']

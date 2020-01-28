@@ -1,6 +1,7 @@
 
 """Fixture utilties."""
 
+from builtins import object
 import sys
 import unittest
 import types
@@ -43,7 +44,7 @@ class DataTestCase(object):
     def tearDown(self):
         self.data.teardown()
 
-class ObjRegistry:
+class ObjRegistry(object):
     """registers objects by class.
     
     all lookup methods expect to get either an instance or a class type.

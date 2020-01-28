@@ -1,3 +1,4 @@
+from builtins import str
 import cgi
 
 from paste.urlparser import PkgResourcesParser

@@ -1,23 +1,24 @@
+from builtins import object
 from fixture import DataSet, DjangoFixture
 from blog.datasets.user_data import UserData
 
-class BlogMeta:
+class BlogMeta(object):
     django_app_label = 'blog'
     
 class CategoryData(DataSet):
     class Meta(BlogMeta):
         pass
-    class python:
+    class python(object):
         title = 'python'
         slug = 'py'
-    class testing:
+    class testing(object):
         title = 'testing'
         slug = 'test'
 
 class PostData(DataSet):
     class Meta(BlogMeta):
         pass
-    class first_post:
+    class first_post(object):
         title           = "1st test post"
         body            = "this one's about python"
         author          = UserData.ben

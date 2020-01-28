@@ -1,5 +1,6 @@
 """The application's Globals object"""
 
+from builtins import object
 class Globals(object):
 
     """Globals acts as a container for objects available throughout the

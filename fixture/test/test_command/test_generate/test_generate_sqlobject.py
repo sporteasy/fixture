@@ -1,4 +1,5 @@
 
+from builtins import str
 import os
 from nose.tools import eq_
 from nose.exc import SkipTest

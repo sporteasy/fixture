@@ -1,10 +1,11 @@
+from builtins import object
 from fixture import DataSet, DjangoFixture
 from datetime import datetime
 
 class UserData(DataSet):
-    class Meta:
+    class Meta(object):
         django_app_label = 'auth'
-    class ben:
+    class ben(object):
         first_name = 'Ben'
         last_name = 'Ford'
         username = 'ben'

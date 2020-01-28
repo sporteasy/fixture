@@ -1,3 +1,4 @@
+from builtins import object
 from nose.tools import raises, assert_raises, assert_equal
 from fixture.loadable.django_loadable import DjangoEnv, DjangoFixture
 from fixture.examples.django_example.blog.models import Post
@@ -17,9 +18,9 @@ def test_invalid_model_returns_none():
 def test_model_lookup_by_qualified_model_name():
     
     class SomeDataset(DataSet):
-        class Meta:
+        class Meta(object):
             django_model = "blog.Post"
-        class foo:
+        class foo(object):
             foo = 1
     
     fixture = DjangoFixture()
@@ -30,10 +31,10 @@ def test_model_lookup_by_qualified_model_name():
 def test_model_lookup_by_explicit_app_label_and_name():
     
     class SomeDataset(DataSet):
-        class Meta:
+        class Meta(object):
             django_app_label = "blog"
             storable_name = "Post"
-        class foo:
+        class foo(object):
             foo = 1
     
     fixture = DjangoFixture()
@@ -44,9 +45,9 @@ def test_model_lookup_by_explicit_app_label_and_name():
 def test_model_lookup_by_app_label_and_style_derived_name():
     
     class PostData(DataSet):
-        class Meta:
+        class Meta(object):
             django_app_label = "blog"
-        class foo:
+        class foo(object):
             foo = 1
     
     fixture = DjangoFixture(style=NamedDataStyle())
@@ -58,9 +59,9 @@ def test_model_lookup_by_app_label_and_style_derived_name():
 def test_dataset_with_malformed_model_name():
     
     class SomeDataset(DataSet):
-        class Meta:
+        class Meta(object):
             django_model = "not_dot_separated_model_name"
-        class foo:
+        class foo(object):
             foo = 1
     
     fixture = DjangoFixture()
@@ -71,7 +72,7 @@ def test_dataset_with_malformed_model_name():
 def test_dataset_without_resolvable_model_name():
     
     class UnknownData(DataSet):
-        class foo:
+        class foo(object):
             foo = 1
     
     fixture = DjangoFixture()

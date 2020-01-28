@@ -1,4 +1,5 @@
 
+from builtins import object
 from nose.tools import with_setup, eq_, raises
 from fixture import DataSet
 from fixture.dataset import (
@@ -21,54 +22,54 @@ class Movies(DataSet):
         
         
 class Authors(DataSet):
-    class martel:
+    class martel(object):
         name = 'Yann Martel'
-    class nabokov:
+    class nabokov(object):
         name = 'Vladimir Nabokov'
 class BooksAndAuthors(DataSet):
-    class lolita:
+    class lolita(object):
         title = 'lolita'
         author = Authors.nabokov.ref('name')
-    class pi:
+    class pi(object):
         title = 'life of pi'
         author = Authors.martel.ref('name')
         
 
 
 class CategoryData(DataSet):
-    class vehicles:
+    class vehicles(object):
         id = 1
         name = 'cars'
-    class free_stuff:
+    class free_stuff(object):
         id = 2
         name = 'get free stuff'
-    class discounted:
+    class discounted(object):
         id = 3
         name = 'discounted stuff'
         
 class ProductData(DataSet):
-    class truck:
+    class truck(object):
         id = 1
         name = 'truck'
         category_id = CategoryData.vehicles.ref('id')
-    class spaceship:
+    class spaceship(object):
         id = 2
         name = 'spaceship'
         category_id = CategoryData.vehicles.ref('id')
 
 class OfferData(DataSet):
-    class free_truck:
+    class free_truck(object):
         id = 1
         name = "it's a free truck"
         product_id = ProductData.truck.ref('id')
         category_id = CategoryData.free_stuff.ref('id')
-    class discounted_spaceship:
+    class discounted_spaceship(object):
         id = 2
         name = "it's a spaceship 1/2 off"
         product_id = ProductData.spaceship.ref('id')
         category_id = CategoryData.discounted.ref('id')
 
-class DataSetTest:
+class DataSetTest(object):
     """tests behavior of a DataSet object."""
     def assert_access(self, dataset):
         raise NotImplementedError
@@ -124,9 +125,9 @@ class TestDataRow(object):
 class TestDataTypeDrivenDataSet(TestDataSet):
     def setUp(self):
         class Books(DataSet):
-            class lolita:
+            class lolita(object):
                 title = 'lolita'
-            class pi:
+            class pi(object):
                 title = 'life of pi'
         self.dataset_class = Books
         self.dataset = Books()
@@ -148,7 +149,7 @@ class TestDataTypeDrivenDataSet(TestDataSet):
 @attr(unit=True)
 def test_is_rowlike():
     class StubDataSet(DataSet):
-        class some_row:
+        class some_row(object):
             pass
     class StubDataSetNewStyle(DataSet):
         class some_row(object):
@@ -158,7 +159,7 @@ def test_is_rowlike():
     eq_(is_rowlike(StubDataSetNewStyle.some_row), True)
     eq_(is_rowlike(DataRow(StubDataSet)), True)
     
-    class StubRow:
+    class StubRow(object):
         pass
     class StubRowNewStyle(object):
         pass
@@ -207,7 +208,7 @@ class InheritedRowsTest(DataSetTest):
             raise ValueError("unexpected row %s at key %s, count %s" % (
                                                         items, key, count))
 class EventData(DataSet):
-    class click:
+    class click(object):
         type = 'click'
         session = 'aaaaaaa'
         offer = 1
@@ -245,7 +246,7 @@ class TestDataSetCustomMeta(DataSetTest):
         # a dataset with a config that doesn't inherit from
         # the default config.  should be ok
         class Chairs(DataSet):
-            class Meta:
+            class Meta(object):
                 storable_name = 'PretendStorage'
             def data(self):
                 return (
@@ -273,7 +274,7 @@ class TestDataSetCustomMeta(DataSetTest):
         else:
             raise ValueError("unexpected row %s, count %s" % (items, count))
     
-class SuperSetTest:
+class SuperSetTest(object):
     """tests common behavior of SuperSet like objects."""
     SuperSet = None
     
@@ -321,7 +322,7 @@ class TestMergedSuperSet(SuperSetTest):
         eq_(self.superset.peewee.director, 'Tim Burton')
         eq_(self.superset.aquatic.director, 'cant remember his name')
 
-class ComplexRefTest:
+class ComplexRefTest(object):
     @attr(unit=True)
     def test_construction(self):
         eq_(self.offer_data.meta.references, [CategoryData, ProductData])
@@ -337,16 +338,16 @@ class TestComplexRefs(ComplexRefTest):
         self.product_data = ProductData()
         
 class ProductObj(DataSet):
-    class truck:
+    class truck(object):
         category_id = CategoryData.vehicles
-    class spaceship:
+    class spaceship(object):
         category_id = CategoryData.vehicles
         
 class OfferObj(DataSet):
-    class free_truck:
+    class free_truck(object):
         product = ProductData.truck
         category = CategoryData.free_stuff
-    class discounted_spaceship:
+    class discounted_spaceship(object):
         product = ProductData.spaceship
         category = CategoryData.discounted
 
@@ -357,16 +358,16 @@ class TestComplexRefsToObjects(ComplexRefTest):
         
         
 class ProductObjList(DataSet):
-    class truck:
+    class truck(object):
         categories = [CategoryData.vehicles]
-    class spaceship:
+    class spaceship(object):
         categories = [CategoryData.vehicles]
 
 class OfferObjList(DataSet):
-    class free_truck:
+    class free_truck(object):
         products = [ProductData.truck]
         categories = [CategoryData.free_stuff]
-    class discounted_spaceship:
+    class discounted_spaceship(object):
         products = [ProductData.spaceship]
         categories = [CategoryData.discounted]
         
@@ -377,16 +378,16 @@ class TestComplexRefsToListsOfObjects(ComplexRefTest):
         
         
 class ProductObjTuple(DataSet):
-    class truck:
+    class truck(object):
         categories = tuple([CategoryData.vehicles])
-    class spaceship:
+    class spaceship(object):
         categories = tuple([CategoryData.vehicles])
 
 class OfferObjTuple(DataSet):
-    class free_truck:
+    class free_truck(object):
         products = tuple([ProductData.truck])
         categories = tuple([CategoryData.free_stuff])
-    class discounted_spaceship:
+    class discounted_spaceship(object):
         products = tuple([ProductData.spaceship])
         categories = tuple([CategoryData.discounted])
         
@@ -398,10 +399,10 @@ class TestComplexRefsToTuplesOfObjects(ComplexRefTest):
 @attr(unit=True)
 def test_DataSet_cant_add_refs_to_self():
     class Pals(DataSet):
-        class henry:
+        class henry(object):
             name='Henry'
             buddy=None
-        class jenny:
+        class jenny(object):
             name="Jenny"
         jenny.buddy = henry
     

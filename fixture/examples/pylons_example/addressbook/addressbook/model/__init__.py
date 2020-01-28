@@ -1,4 +1,5 @@
 """The application's model objects"""
+from builtins import object
 import sqlalchemy as sa
 from sqlalchemy import orm
 

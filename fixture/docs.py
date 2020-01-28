@@ -3,6 +3,9 @@
 """fixture documentation utilities
 """
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
 import os, sys
 from os import path
 import optparse
@@ -19,9 +22,9 @@ from docutils.readers.standalone import Reader
 from docutils.writers.html4css1 import HTMLTranslator, Writer
 from docutils import nodes
 try:
-    from cStringIO import StringIO
+    from io import StringIO
 except ImportError:
-    from StringIO import StringIO
+    from io import StringIO
 
 heredir = path.dirname(__file__)
 srcdir = path.join(heredir, '..', 'docs')
@@ -86,7 +89,7 @@ def shell(
         main = get_object_from_path(options['run_on_method'])
         
         def decode(s):
-            if isinstance(s, unicode):
+            if isinstance(s, str):
                 s = str(s.decode())
             return s
         def unquot(s):

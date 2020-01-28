@@ -1,5 +1,10 @@
 
-from cStringIO import StringIO
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import range
+from builtins import object
+from io import StringIO
 import sys
 import nose.tools, nose.case, nose.loader
 from nose.tools import eq_, raises
@@ -27,14 +32,14 @@ class StubSuperSet(object):
     def __init__(self, *a,**kw):
         pass
 
-class StubDataset:
+class StubDataset(object):
     @classmethod
     def shared_instance(self, *a, **kw):
         return self()
 class StubDataset1(StubDataset): pass
 class StubDataset2(StubDataset): pass
     
-class TestFixture:
+class TestFixture(object):
     def setUp(self):
         reset_mock_call_log()
         self.fxt = Fixture(loader=MockLoader(), dataclass=StubSuperSet)
