@@ -270,7 +270,7 @@ class DataRow(object):
     """
     a DataSet row, values accessible by attibute or key.
     """
-    _reserved_attr = ('columns',)
+    _reserved_attr = ('columns', 'next')
     
     def __init__(self, dataset):
         object.__setattr__(self, '_dataset', dataset)
