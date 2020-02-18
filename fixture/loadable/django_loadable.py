@@ -151,7 +151,7 @@ class DjangoMedium(DBLoadableFixture.StorageMediumAdapter):
         for key, val in column_vals:
             if key in field_names:
                 dbvals[key] = val
-        new_obj = manager.get_or_create(**dbvals)[0]
+        new_obj = manager.create(**dbvals)
         columns = dict(column_vals)
         for m2m in m2m_field_names:
             if m2m in columns:
