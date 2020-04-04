@@ -126,7 +126,7 @@ class DjangoMedium(DBLoadableFixture.StorageMediumAdapter):
                     len(val)
                 except TypeError:
                     val = [val]
-                rel_types = [isinstance(v, field.rel.to) for v in val]
+                rel_types = [isinstance(v, field.remote_field.model) for v in val]
                 if not field.null and False in rel_types:
                     raise ValueError("Values for field %s must be of type %s, "
                                      "got %s" %
